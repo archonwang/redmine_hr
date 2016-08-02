@@ -1,0 +1,6 @@
+<%= title [l(:"hr.label_profiles_category_plural"), hr_profiles_path], @category.name %>
+
+<%= labelled_form_for @category do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

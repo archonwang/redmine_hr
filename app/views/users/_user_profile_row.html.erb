@@ -1,0 +1,7 @@
+<td><%= p.profile.name %></td>
+<td><%= p.start_date.present? ? p.start_date.strftime('%Y-%m-%d') : "--" %></td>
+<td><%= p.end_date.present? ? p.end_date.strftime('%Y-%m-%d') : l('hr.label_onwards') %></td>
+<td class="buttons">
+<%= link_to l(:button_edit), edit_user_hr_user_profile_path(@user, p.id), :class => 'icon icon-edit', :remote => true %>
+<%= delete_link user_hr_user_profile_path(@user, p), :remote => true %>
+</td>

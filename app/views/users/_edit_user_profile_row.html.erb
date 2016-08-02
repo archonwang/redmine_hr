@@ -1,0 +1,13 @@
+<%= fields_for "hr_user_profile[]", p do |f| %>
+	<td><%= f.select :hr_profile_id, options_from_collection_for_select(HrProfile.all, :id, :name, p.hr_profile_id), :include_blank => true %></td>
+	<td><%= f.text_field :start_date, :id => 'hr_user_profile_start_date_'+p.id.to_s %><%= calendar_for('hr_user_profile_start_date_'+p.id.to_s) %></td>
+	<td>
+		<%=l('hr.label_onwards') %>
+	    <%= check_box_tag 'onwards['+p.id.to_s+']', 'yes', p.end_date.nil?, :class => 'onwards' %>
+	    <%= f.text_field :end_date, :id => 'hr_user_profile_end_date_'+p.id.to_s, :class => 'end_date', :disabled => p.end_date.nil? %><%= calendar_for('hr_user_profile_end_date_'+p.id.to_s) if p.end_date.present? %>
+	</td>
+	<td class="buttons">
+		<%= link_to l(:button_save), "#", :onclick => "$('#edit_hr_user_profile_form').prop('action','"+user_hr_user_profile_path(@user, p)+"').submit()", :class => 'icon icon-save' %>
+		<%= delete_link user_hr_user_profile_path(@user, p), :remote => true %>
+	</td>
+<% end %>

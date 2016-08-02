@@ -1,0 +1,12 @@
+<th class="center"><%= year %></th>
+<% @profiles.each do |profile| %>
+<% profile_cost = profile_costs.find{|c|c.profile.name == profile.name} %>
+<% cost = begin profile_cost.hourly_cost rescue HrProfilesCost::DEFAULT_HOURLY_COST.to_s end %>
+  <%= fields_for "hr_profiles_cost[]", profile_cost do |f| %>
+	  <td class="center editable"><%= currency (f.text_field :hourly_cost, :size => 1).html_safe %></td>
+	<% end %>
+<% end %>
+<td class='buttons'>
+	<%= link_to l(:button_save), "#", :onclick => "$('#hr_profiles_costs_update_year_form').prop('action','"+hr_profiles_costs_update_year_path(:year => year, :profile_category => params[:profile_category])+"').submit()", :class => 'icon icon-save' %>
+  <%= link_to l(:button_delete), {:controller => 'hr_profiles_costs', :action => 'destroy_year', :year => year}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-del', :method => :delete %>
+</td>

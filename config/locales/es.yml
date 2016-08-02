@@ -1,0 +1,26 @@
+# Spanish strings go here
+es:
+  field_hr_profiles_category: Categoría
+  field_start_date: Fecha de inicio
+  field_end_date: Fecha de fin
+
+  hr:
+    plugin_name: Cuadro de Mando Integral (HHRR)
+    plugin_description: Gestión de RRHH
+
+    label_cost_history: Evolución de coste por perfil
+    label_add_year: Añadir nuevo año
+    label_onwards: En adelante
+
+    label_profile_management: Gestión de perfiles
+    label_profile_new: Nuevo perfil
+    label_profile_category_new: Nueva categoría de perfil
+    label_profile_plural: Perfiles
+    label_profiles_category_plural: Categorías de perfiles
+    error_unable_delete_profile: Fue imposible eliminar el perfil
+    error_unable_delete_profiles_category: Fue imposible eliminar la categoría de perfiles
+
+    label_category: Categoría
+    label_all: Todas
+
+    label_profile_history: Evolución del perfil

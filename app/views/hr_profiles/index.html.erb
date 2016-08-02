@@ -1,0 +1,50 @@
+<h2><%=l('hr.label_profile_management')%></h2>
+<div class="splitcontentleft">
+  <div class="contextual">
+  <%= link_to l(:"hr.label_profile_new"), new_hr_profile_path, :class => 'icon icon-add' %>
+  </div>
+
+  <h3><%=l('hr.label_profile_plural')%></h3>
+
+  <table class="list">
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <th><%=l(:field_name)%></th>
+    <th><%=l(:field_category)%></th>
+    <th></th>
+  </tr>
+
+  <% @profiles.each do |profile| %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td class='name'><%= link_to profile.name, edit_hr_profile_path(profile.id) %></td>
+    <td class='center'><%= begin profile.category.name rescue "-" end %></td>
+    <td class='buttons'>
+      <%= delete_link hr_profile_path(profile.id) %>
+    </td>
+  </tr>
+  <% end %>
+  </table>
+</div>
+
+<div class="splitcontentright">
+  <div class="contextual">
+  <%= link_to l(:"hr.label_profile_category_new"), new_hr_profiles_category_path, :class => 'icon icon-add' %>
+  </div>
+
+  <h3><%=l('hr.label_profiles_category_plural')%></h3>
+
+  <table class="list">
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <th><%=l(:field_name)%></th>
+    <th></th>
+  </tr>
+
+  <% @categories.each do |category| %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td class='name'><%= link_to category.name, edit_hr_profiles_category_path(category.id) %></td>
+    <td class='buttons'>
+      <%= delete_link hr_profiles_category_path(category.id) %>
+    </td>
+  </tr>
+  <% end %>
+  </table>
+</div>

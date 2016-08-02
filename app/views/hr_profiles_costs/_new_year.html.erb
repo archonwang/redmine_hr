@@ -1,0 +1,38 @@
+<div id="new_history_profiles_cost">
+  <%= form_tag controller: 'hr_profiles_costs', action: 'create_year' do %>
+    <fieldset class="box tabular">
+      <legend><%= l('hr.label_add_year') %></legend>
+      <p>
+        <label><%=l(:label_year)%></label>
+        <%= select_tag 'year', options_for_select(@year_options, selected: @next_year, disabled: @years) %>
+      </p>
+
+      <% @profiles.group_by(&:category).each do |category, profiles| %>
+        <fieldset class="box tabular">
+        <legend><%=category.present? ? category.name : 'Sin categoría'%></legend>
+        <div class='splitcontentleft'>
+          <% for i in (0..profiles.count-1).step(2) %>
+            <% profile = profiles[i] %>
+            <p>
+              <%= label_tag profile.name %>
+              <%= text_field_tag 'values['+profile.id.to_s+']', '', size: 10 %>
+            </p>
+          <% end %>
+        </div>
+
+        <div class='splitcontentright'>
+          <% for i in (1..profiles.count-1).step(2) %>
+            <% profile = profiles[i] %>
+            <p>
+              <%= label_tag profile.name %>
+              <%= text_field_tag 'values['+profile.id.to_s+']', '', size: 10 %>
+            </p>
+          <% end %>
+        </div>
+        </fieldset>
+      <% end %>
+      <div style="clear:both;"></div>
+    </fieldset>
+    <%= submit_tag l(:"button_create") %>
+  <% end %>
+</div>

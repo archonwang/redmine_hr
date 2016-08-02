@@ -1,0 +1,6 @@
+<%= title [l(:"hr.label_profile_plural"), hr_profiles_path], @profile.name %>
+
+<%= labelled_form_for @profile do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end %>

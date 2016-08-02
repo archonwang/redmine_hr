@@ -1,0 +1,7 @@
+<% if @flash == 'notice' %>
+$('tr[data-id="<%=@user_profile.id.to_s%>"]').html("<%= escape_javascript(render :partial => '/users/user_profile_row', :locals => {:p => @user_profile}) %>");
+<% end %>
+
+$('.flash').remove();
+div = "<div class='flash <%=@flash%>' id='flash_<%=@flash%>'><%=@message%></div>"
+$('#content').prepend(div);

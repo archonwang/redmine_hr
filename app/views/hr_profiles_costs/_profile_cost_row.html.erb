@@ -1,0 +1,10 @@
+<th class="center"><%= year %></th>
+<% @profiles.each do |profile| %>
+  <% profile_cost = profile_costs.find{|c|c.profile.name == profile.name} %>
+  <% cost = begin profile_cost.hourly_cost rescue HrProfilesCost::DEFAULT_HOURLY_COST.to_s end %>
+  <td class="center editable"><%= currency ("<span class='"+profile_cost.id.to_s+"'>"+cost.to_s+"</span>").html_safe %></td>
+<% end %>
+<td class='buttons'>
+	<%= link_to l(:button_edit), hr_profiles_costs_edit_year_path(:year => year, :profile_category => params[:profile_category]), :class => 'icon icon-edit', :remote => true %>
+  <%= link_to l(:button_delete), {:controller => 'hr_profiles_costs', :action => 'destroy_year', :year => year}, :data => {:confirm => l(:text_are_you_sure)}, :class => 'icon icon-del', :method => :delete %>
+</td>

@@ -1,0 +1,9 @@
+<h2><%=l('hr.label_cost_history')%></h2>
+<%= form_tag hr_profiles_costs_path, :method => :get do %>
+<%= label :profile_category, l(:"hr.label_category") %>:
+<%= select_tag :profile_category, options_from_collection_for_select(HrProfilesCategory.all, "id", "name", params[:profile_category]), :prompt => l(:"hr.label_all"), :onchange => "$(this).closest('form').submit();" %>
+<% end %>
+<% if @years.present? %>
+<%= render :partial => 'content' %>
+<% end %>
+<%= render :partial => 'new_year' %>

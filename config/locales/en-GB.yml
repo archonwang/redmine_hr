@@ -1,0 +1,26 @@
+# British english strings go here
+en-GB:
+  field_hr_profiles_category: Category
+  field_start_date: Start date
+  field_end_date: End date
+
+  hr:
+    plugin_name: Balanced Score Card (HHRR)
+    plugin_description: HHRR Management
+
+    label_cost_history: Cost evolution per profile
+    label_add_year: Add new year
+    label_onwards: Onwards
+
+    label_profile_management: Profile management
+    label_profile_new: New profile
+    label_profile_category_new: New profile category
+    label_profile_plural: Profiles
+    label_profiles_category_plural: Profile categories
+    error_unable_delete_profile: Unable to delete profile
+    error_unable_delete_profiles_category: Unable to delete profile category
+
+    label_category: Category
+    label_all: All
+
+    label_profile_history: Profile

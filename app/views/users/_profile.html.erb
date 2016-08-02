@@ -1,0 +1,52 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "user_profiles.js", :plugin => 'redmine_hr' %>
+<% end %>
+
+<% profile_list = HrUserProfile.where(user_id: @user.id).order(:start_date) %>
+<div>
+<%= form_tag user_hr_user_profiles_path(@user), remote: true, :method => :put, :id => 'edit_hr_user_profile_form' do %> 
+    <%= hidden_field_tag 'authenticity_token', form_authenticity_token %>
+    <table class="list memberships">
+    	<thead>
+    	  <th><%= l(:'hr.label_profile_plural') %></th>
+    	  <th><%= l(:field_start_date) %></th>
+    	  <th><%= l(:field_end_date) %></th>
+        <th></th>
+    	</thead>
+    	<tbody>
+        <% profile_list.each do |p| %>
+          <tr class="<%= cycle 'odd', 'even' %>" data-id="<%=p.id%>">
+            <%= render :partial => 'user_profile_row', :locals => {:p => p} %>
+          </tr>
+        <% end %>
+    	</tbody>
+    </table>
+<% end %>
+  <br>
+
+  <% hr_user_profile = params[:hr_user_profile].present? ? HrUserProfile.new(params.require(:hr_user_profile).permit(:user_id, :hr_profile_id, :start_date, :end_date, :onwards)) : HrUserProfile.new %>
+  <div id="new_history_user_profile">
+    <%= form_for [@user, hr_user_profile] do |f| %>
+      <fieldset class="box tabular">
+        <legend><%= l('hr.label_profile_new') %></legend>
+        <p>
+          <%= f.label :hr_profile_id, l(:'hr.label_profile_plural') %>
+          <%= f.select :hr_profile_id, options_from_collection_for_select(HrProfile.all, :id, :name, hr_user_profile[:hr_profile_id]), :include_blank => true %>
+        </p>
+        <p>
+          <%= f.label :start_date, l(:field_start_date) %>
+          <%= f.text_field :start_date %><%= calendar_for('hr_user_profile_start_date') %>
+        </p>
+        <p>
+          <%= f.label :onwards, l(:'hr.label_onwards') %>
+          <%= check_box_tag 'onwards', 'yes', (params[:onwards].present? and params[:onwards] == "yes"), :class => 'onwards' %>
+        </p>
+        <p>
+          <%= f.label :end_date, l(:field_end_date) %>
+          <%= f.text_field :end_date, :class => 'end_date' %>
+        </p>
+      </fieldset>
+      <div><%= f.submit l(:button_submit) %></div>
+    <% end %>
+  </div>
+</div>
