@@ -7,6 +7,7 @@ module Hr
       base.send(:include, InstanceMethods)
 
       base.class_eval do
+        belongs_to :hr_profile
         before_save :update_profile_and_cost
       end
     end
