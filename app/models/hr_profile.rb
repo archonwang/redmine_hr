@@ -14,7 +14,11 @@ class HrProfile < ActiveRecord::Base
 
 	def cost_on(year)
 		begin
-			costs.where(year: year).first.hourly_cost
+			if costs.where(year: year).present?
+				costs.where(year: year).first.hourly_cost
+			else
+				costs.where("year <= ?", year).order('year DESC').first.hourly_cost
+			end
 		rescue
 			HrProfilesCost::DEFAULT_HOURLY_COST
 		end
