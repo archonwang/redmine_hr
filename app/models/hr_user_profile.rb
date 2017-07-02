@@ -32,7 +32,12 @@ class HrUserProfile < ActiveRecord::Base
   end
 
   def create_user_profile
-    self.time_entries.each(&:update_profile_and_cost)
+    hourly_costs = self.profile.present? ? self.profile.costs.inject({}){|h, c| h[c.year] = c.hourly_cost; h} : Hash.new(HrProfilesCost::DEFAULT_HOURLY_COST)
+    (self.start_date.year..self.end_date.year).each do |year|
+      hourly_cost = hourly_costs[year]
+      self.time_entries.where(tyear: year).update_all("hr_profile_id = #{self.hr_profile_id}, cost = (#{hourly_cost} * hours)")
+    end
+    # self.time_entries.each{|te| te.set_profile_and_cost(self.hr_profile_id, hourly_costs[te.tyear])}
   end
 
   def destroy_user_profile
@@ -58,6 +63,11 @@ class HrUserProfile < ActiveRecord::Base
         .time_entries.each(&:remove_profile_and_cost)
     end
 
-    self.time_entries.each(&:update_profile_and_cost)
+    hourly_costs = self.profile.present? ? self.profile.costs.inject({}){|h, c| h[c.year] = c.hourly_cost; h} : Hash.new(HrProfilesCost::DEFAULT_HOURLY_COST)
+    (self.start_date.year..self.end_date.year).each do |year|
+      hourly_cost = hourly_costs[year]
+      self.time_entries.where(tyear: year).update_all("hr_profile_id = #{self.hr_profile_id}, cost = (#{hourly_cost} * hours)")
+    end
+    # self.time_entries.each{|te| te.set_profile_and_cost(self.hr_profile_id, hourly_costs[te.tyear])}
   end
 end

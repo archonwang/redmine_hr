@@ -33,8 +33,8 @@ module Hr
           profile.id :
           nil
 
-        hourly_cost = (profile_cost = self.user.current_cost(self.spent_on)).present? ?
-          profile_cost.hourly_cost :
+        hourly_cost = (profile_cost = profile.present? ?
+          profile.cost_on(self.spent_on.year) :
           HrProfilesCost::DEFAULT_HOURLY_COST
 
         set_profile_and_cost(profile_id, hourly_cost)
