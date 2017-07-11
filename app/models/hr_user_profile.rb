@@ -32,8 +32,13 @@ class HrUserProfile < ActiveRecord::Base
   end
 
   def create_user_profile
+    last_date = (last_time_entry = TimeEntry.order('spent_on DESC').first).present? ? 
+      last_time_entry.spent_on :
+      Date.today
+
     hourly_costs = self.profile.present? ? self.profile.costs.inject({}){|h, c| h[c.year] = c.hourly_cost; h} : Hash.new(HrProfilesCost::DEFAULT_HOURLY_COST)
-    (self.start_date.year..self.end_date.year).each do |year|
+
+    (self.start_date.year..(self.end_date || last_date).year).each do |year|
       hourly_cost = hourly_costs[year]
       self.time_entries.where(tyear: year).update_all("hr_profile_id = #{self.hr_profile_id}, cost = (#{hourly_cost} * hours)")
     end
@@ -64,7 +69,8 @@ class HrUserProfile < ActiveRecord::Base
     end
 
     hourly_costs = self.profile.present? ? self.profile.costs.inject({}){|h, c| h[c.year] = c.hourly_cost; h} : Hash.new(HrProfilesCost::DEFAULT_HOURLY_COST)
-    (self.start_date.year..self.end_date.year).each do |year|
+
+    (self.start_date.year..(self.end_date || last_date).year).each do |year|
       hourly_cost = hourly_costs[year]
       self.time_entries.where(tyear: year).update_all("hr_profile_id = #{self.hr_profile_id}, cost = (#{hourly_cost} * hours)")
     end
