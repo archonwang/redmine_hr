@@ -1,6 +1,6 @@
 <th class="center"><%= year %></th>
 <% @profiles.each do |profile| %>
-  <% profile_cost = profile_costs.find{|c|c.profile.name == profile.name} %>
+  <% profile_cost = profile_costs.find{|c| c.profile.id == profile.id} %>
   <% cost = begin profile_cost.hourly_cost rescue HrProfilesCost::DEFAULT_HOURLY_COST.to_s end %>
   <td class="center editable"><%= currency ("<span class='"+profile_cost.id.to_s+"'>"+cost.to_s+"</span>").html_safe %></td>
 <% end %>

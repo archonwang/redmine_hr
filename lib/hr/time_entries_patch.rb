@@ -7,7 +7,8 @@ module Hr
       base.send(:include, InstanceMethods)
 
       base.class_eval do
-        before_save :update_profile_and_cost
+        belongs_to :hr_profile
+        after_save :update_profile_and_cost
       end
     end
 
@@ -32,9 +33,9 @@ module Hr
           profile.id :
           nil
 
-        hourly_cost = (profile_cost = self.user.current_cost(self.spent_on)).present? ?
-          profile_cost.hourly_cost :
-          HrProfilesCost::DEFAULT_HOURLY_COST
+        hourly_cost = (profile_cost = profile.present? ?
+          profile.cost_on(self.spent_on.year) :
+          HrProfilesCost::DEFAULT_HOURLY_COST)
 
         set_profile_and_cost(profile_id, hourly_cost)
       end

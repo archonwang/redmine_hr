@@ -8,13 +8,17 @@ class HrProfile < ActiveRecord::Base
 	validates_presence_of :name
   validates_length_of :name, :maximum => 20
 
-  after_save :create_costs
+  after_create :create_costs
 
   scope :category, -> (id) { where(hr_profiles_category_id: id) }
 
 	def cost_on(year)
 		begin
-			costs.where(year: year).first.hourly_cost
+			if costs.where(year: year).present?
+				costs.where(year: year).first.hourly_cost
+			else
+				costs.where("year <= ?", year).order('year DESC').first.hourly_cost
+			end
 		rescue
 			HrProfilesCost::DEFAULT_HOURLY_COST
 		end

@@ -2,6 +2,7 @@ require 'hr/application_helper_patch'
 require 'hr/users_helper_patch'
 require 'hr/user_patch'
 require 'hr/time_entries_patch'
+require 'hr/time_entry_reports_common_patch'
 
 Redmine::Plugin.register :redmine_hr do
   Rails.configuration.after_initialize do
